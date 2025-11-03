@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getEventsBetween } from '@/app/lib/data';
 import { getWalkingEta } from '@/app/lib/walk';
 
-// Define a minimal type for events so TS doesn't complain
+// Define a minimal type for events
 interface Event {
   id: string;
   lat: number | null;
@@ -32,16 +32,21 @@ export async function GET(req: NextRequest) {
   let withLoc: Event[] = events;
   if (lat && lng) {
     const origin = { lat: Number(lat), lng: Number(lng) };
-    const etas = await getWalkingEta(origin, events.map((e: Event) => ({
-      id: e.id,
-      lat: e.lat,
-      lng: e.lng,
-    })));
+    const etas = await getWalkingEta(
+      origin,
+      events.map((e: Event) => ({
+        id: e.id,
+        lat: e.lat ?? undefined, // 👈 convert null → undefined
+        lng: e.lng ?? undefined, // 👈 convert null → undefined
+      }))
+    );
     withLoc = events
       .map((e: Event) => ({ ...e, walk: etas[e.id] }))
       .sort((a, b) => (a.walk?.minutes ?? 999) - (b.walk?.minutes ?? 999));
   } else {
-    withLoc = events.sort((a, b) => new Date(a.startsAt).getTime() - new Date(b.startsAt).getTime());
+    withLoc = events.sort(
+      (a, b) => new Date(a.startsAt).getTime() - new Date(b.startsAt).getTime()
+    );
   }
 
   return NextResponse.json({ events: withLoc, lastUpdated });
