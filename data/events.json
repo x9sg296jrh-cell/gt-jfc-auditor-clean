@@ -1,32 +1,6 @@
 {
-  "lastUpdated": "2025-11-03T15:42:21.223Z",
+  "lastUpdated": "2025-11-03T18:50:27.696Z",
   "events": [
-    {
-      "id": "11845913",
-      "sourceUrl": "https://gatech.campuslabs.com/engage/event/11845913",
-      "title": "Critical Language Scholarship (CLS): Info Session",
-      "clubName": "Host Organization\nOffice of International Education",
-      "startsAt": "2025-11-03T11:00:00.000Z",
-      "endsAt": "2025-11-03T12:00:00.000Z",
-      "venueName": "John Lewis Student Center: Piedmont Room351 Ferst Dr NW, Atlanta, GA 30332, Atlanta, GeorgiaView Map",
-      "lat": null,
-      "lng": null,
-      "hasFood": false,
-      "foodNotes": ""
-    },
-    {
-      "id": "11846581",
-      "sourceUrl": "https://gatech.campuslabs.com/engage/event/11846581",
-      "title": "Akpsi Fall Fundraiser",
-      "clubName": "Host Organization\nAlpha Kappa Psi",
-      "startsAt": "2025-11-03T12:00:00.000Z",
-      "endsAt": "2025-11-03T14:30:00.000Z",
-      "venueName": "Tech GreenNorth Avenue NW, Atlanta, GA 30332View Map",
-      "lat": null,
-      "lng": null,
-      "hasFood": false,
-      "foodNotes": ""
-    },
     {
       "id": "11792384",
       "sourceUrl": "https://gatech.campuslabs.com/engage/event/11792384",
@@ -194,6 +168,32 @@
       "lat": null,
       "lng": null,
       "hasFood": false,
+      "foodNotes": ""
+    },
+    {
+      "id": "11797270",
+      "sourceUrl": "https://gatech.campuslabs.com/engage/event/11797270",
+      "title": "4Flow Lunch and Learn",
+      "clubName": "Host Organization\nSupply Chain and Logistics Organization",
+      "startsAt": "2025-11-03T11:00:00.000Z",
+      "endsAt": "2025-11-03T12:00:00.000Z",
+      "venueName": "West Architecture, Room 258247 Fourth St. N.W. Atlanta, GA 30318View Map",
+      "lat": null,
+      "lng": null,
+      "hasFood": false,
+      "foodNotes": ""
+    },
+    {
+      "id": "11678119",
+      "sourceUrl": "https://gatech.campuslabs.com/engage/event/11678119",
+      "title": "Bagel Break",
+      "clubName": "Host Organization\nHillel",
+      "startsAt": "2025-11-03T11:00:00.000Z",
+      "endsAt": "2025-11-03T12:00:00.000Z",
+      "venueName": "John Lewis Student Center",
+      "lat": null,
+      "lng": null,
+      "hasFood": true,
       "foodNotes": ""
     }
   ]
