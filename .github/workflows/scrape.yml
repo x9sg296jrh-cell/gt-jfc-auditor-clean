@@ -21,10 +21,13 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Install Playwright and browsers
+      - name: Install Playwright browsers (with root access)
         run: |
-          npx playwright install --with-deps
-          npx playwright install-deps
+          npx playwright install --with-deps chromium
+          sudo npx playwright install-deps
+
+      - name: Verify browsers
+        run: npx playwright --version
 
       - name: Run scraper
         run: npm run scrape
