@@ -24,17 +24,27 @@ export default function HomePage() {
   const [location, setLocation] = useState<{ lat: number; lon: number } | null>(null);
 
   const fetchEvents = async () => {
-    setLoading(true);
-    try {
-      const res = await fetch("/api/events");
-      const data = await res.json();
-      setEvents(data || []);
-    } catch (err) {
-      console.error("Failed to fetch events:", err);
-    } finally {
-      setLoading(false);
+  setLoading(true);
+  try {
+    const res = await fetch("/api/events");
+    const data = await res.json();
+
+    // ensure events is an array
+    if (Array.isArray(data)) {
+      setEvents(data);
+    } else if (Array.isArray(data.events)) {
+      setEvents(data.events);
+    } else {
+      console.error("Unexpected API response:", data);
+      setEvents([]); // fallback to empty array
     }
-  };
+  } catch (err) {
+    console.error("Failed to fetch events:", err);
+    setEvents([]); // fail gracefully
+  } finally {
+    setLoading(false);
+  }
+};
 
   useEffect(() => {
     fetchEvents();
