@@ -2,6 +2,16 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getEventsBetween } from '@/app/lib/data';
 import { getWalkingEta } from '@/app/lib/walk';
 
+// Define a minimal type for events so TS doesn't complain
+interface Event {
+  id: string;
+  lat: number | null;
+  lng: number | null;
+  startsAt: string;
+  endsAt: string;
+  walk?: { minutes: number };
+}
+
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const start = searchParams.get('start') || '18:00';
@@ -15,17 +25,20 @@ export async function GET(req: NextRequest) {
   const windowStart = new Date(today.getFullYear(), today.getMonth(), today.getDate(), sh, sm);
   const windowEnd = new Date(today.getFullYear(), today.getMonth(), today.getDate(), eh, em);
 
-  // Load events data (may include lastUpdated)
   const data: any = await getEventsBetween(windowStart, windowEnd);
-  const events = Array.isArray(data) ? data : data.events || [];
+  const events: Event[] = Array.isArray(data) ? data : data.events || [];
   const lastUpdated = (data && !Array.isArray(data) && data.lastUpdated) || null;
 
-  let withLoc = events;
+  let withLoc: Event[] = events;
   if (lat && lng) {
     const origin = { lat: Number(lat), lng: Number(lng) };
-    const etas = await getWalkingEta(origin, events.map(e => ({ id: e.id, lat: e.lat, lng: e.lng })));
+    const etas = await getWalkingEta(origin, events.map((e: Event) => ({
+      id: e.id,
+      lat: e.lat,
+      lng: e.lng,
+    })));
     withLoc = events
-      .map(e => ({ ...e, walk: etas[e.id] }))
+      .map((e: Event) => ({ ...e, walk: etas[e.id] }))
       .sort((a, b) => (a.walk?.minutes ?? 999) - (b.walk?.minutes ?? 999));
   } else {
     withLoc = events.sort((a, b) => new Date(a.startsAt).getTime() - new Date(b.startsAt).getTime());
