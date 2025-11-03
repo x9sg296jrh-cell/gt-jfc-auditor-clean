@@ -9,7 +9,7 @@ interface Event {
   lng: number | null;
   startsAt: string;
   endsAt: string;
-  walk?: { minutes: number };
+  walk?: { minutes: number; meters?: number } | null; // ✅ allow null
 }
 
 export async function GET(req: NextRequest) {
@@ -36,12 +36,12 @@ export async function GET(req: NextRequest) {
       origin,
       events.map((e: Event) => ({
         id: e.id,
-        lat: e.lat ?? undefined, // 👈 convert null → undefined
-        lng: e.lng ?? undefined, // 👈 convert null → undefined
+        lat: e.lat ?? undefined,
+        lng: e.lng ?? undefined,
       }))
     );
     withLoc = events
-      .map((e: Event) => ({ ...e, walk: etas[e.id] }))
+      .map((e: Event) => ({ ...e, walk: etas[e.id] ?? null })) // ✅ explicitly handle null
       .sort((a, b) => (a.walk?.minutes ?? 999) - (b.walk?.minutes ?? 999));
   } else {
     withLoc = events.sort(
