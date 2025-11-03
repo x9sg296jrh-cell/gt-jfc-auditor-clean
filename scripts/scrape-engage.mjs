@@ -37,7 +37,7 @@ async function scrape() {
   const storageStatePath = path.join(__dirname, '..', 'engage-auth.json');
   const dataOut = path.join(__dirname, '..', 'data', 'events.json');
 
-  const browser = await chromium.launch({ headless: false });
+  const browser = await chromium.launch({ headless: true });
   const context = await browser.newContext({
     storageState: fs.existsSync(storageStatePath) ? storageStatePath : undefined,
   });
