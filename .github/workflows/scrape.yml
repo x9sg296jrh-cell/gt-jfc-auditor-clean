@@ -19,10 +19,12 @@ jobs:
           node-version: 20
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
-      - name: Install Playwright browsers
-        run: npx playwright install --with-deps
+      - name: Install Playwright and browsers
+        run: |
+          npx playwright install --with-deps
+          npx playwright install-deps
 
       - name: Run scraper
         run: npm run scrape
