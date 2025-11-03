@@ -1,0 +1,14 @@
+{
+  "build": {
+    "env": {
+      "SKIP_SCRAPER": "true"
+    }
+  },
+  "ignoreCommand": "echo 'Skipping scraper files for build'",
+  "functions": {
+    "api/refresh/route.ts": {
+      "excludeFiles": "**"
+    }
+  }
+}
+
