@@ -1,14 +1,5 @@
 {
-  "build": {
-    "env": {
-      "SKIP_SCRAPER": "true"
-    }
-  },
-  "ignoreCommand": "echo 'Skipping scraper files for build'",
-  "functions": {
-    "api/refresh/route.ts": {
-      "excludeFiles": "**"
-    }
-  }
+  "buildCommand": "if [ \"$SKIP_SCRAPER\" = \"true\" ]; then echo 'Skipping scraper build'; else next build; fi",
+  "outputDirectory": ".next",
+  "framework": "nextjs"
 }
-

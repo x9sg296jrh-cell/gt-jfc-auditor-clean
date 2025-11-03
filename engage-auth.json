@@ -11,16 +11,6 @@
       "sameSite": "None"
     },
     {
-      "name": "CLID",
-      "value": "78d1b0f2a17242fba4f637a3290c8ba9.20251031.20261031",
-      "domain": "www.clarity.ms",
-      "path": "/",
-      "expires": 1793487393.820705,
-      "httpOnly": true,
-      "secure": true,
-      "sameSite": "None"
-    },
-    {
       "name": "ASLBSA",
       "value": "0003f9dd40b680b62447b3eb68c33ac886fd76a61a96ebb0bb05e86ef6affc2468fb",
       "domain": "se-images.campuslabs.com",
@@ -39,26 +29,6 @@
       "httpOnly": true,
       "secure": true,
       "sameSite": "None"
-    },
-    {
-      "name": "_clck",
-      "value": "1xkmnh9%5E2%5Eg0m%5E0%5E2130",
-      "domain": ".campuslabs.com",
-      "path": "/",
-      "expires": 1793487396,
-      "httpOnly": false,
-      "secure": false,
-      "sameSite": "Lax"
-    },
-    {
-      "name": "_gid",
-      "value": "GA1.2.1379923368.1761951397",
-      "domain": ".campuslabs.com",
-      "path": "/",
-      "expires": 1762039597,
-      "httpOnly": false,
-      "secure": false,
-      "sameSite": "Lax"
     },
     {
       "name": "MUID",
@@ -85,17 +55,7 @@
       "value": "0595629BC21866810AB4740DC34E670D",
       "domain": ".c.bing.com",
       "path": "/",
-      "expires": 1795647397.855892,
-      "httpOnly": false,
-      "secure": true,
-      "sameSite": "None"
-    },
-    {
-      "name": "SM",
-      "value": "C",
-      "domain": ".c.clarity.ms",
-      "path": "/",
-      "expires": -1,
+      "expires": 1795834970.664627,
       "httpOnly": false,
       "secure": true,
       "sameSite": "None"
@@ -181,51 +141,71 @@
       "sameSite": "Lax"
     },
     {
+      "name": "CLID",
+      "value": "78d1b0f2a17242fba4f637a3290c8ba9.20251031.20261103",
+      "domain": "www.clarity.ms",
+      "path": "/",
+      "expires": 1793674969.520266,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_clck",
+      "value": "1xkmnh9%5E2%5Eg0p%5E0%5E2130",
+      "domain": ".campuslabs.com",
+      "path": "/",
+      "expires": 1793674969,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "SM",
+      "value": "C",
+      "domain": ".c.clarity.ms",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.1738178470.1762138971",
+      "domain": ".campuslabs.com",
+      "path": "/",
+      "expires": 1762226053,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
       "name": "ai_session",
-      "value": "whGE0N0dVTtQNgJR1rXDdf|1761952146753|1761953196186",
+      "value": "FHIbDD4E5UDzi8n1xEbuN1|1762138969771|1762139652634",
       "domain": "gatech.campuslabs.com",
       "path": "/",
-      "expires": 1761954996.186823,
+      "expires": 1762141452.635151,
       "httpOnly": false,
       "secure": true,
       "sameSite": "None"
     },
     {
       "name": "_clsk",
-      "value": "1tvkofo%5E1761953196436%5E5%5E0%5Ewww.clarity.ms%2Feus2-f%2Fcollect",
+      "value": "eiwktb%5E1762139653059%5E5%5E1%5Ewww.clarity.ms%2Feus2-b%2Fcollect",
       "domain": ".campuslabs.com",
       "path": "/",
-      "expires": 1762039596,
+      "expires": 1762226053,
       "httpOnly": false,
       "secure": false,
       "sameSite": "Lax"
     },
     {
       "name": "_ga_6VXTC1Y945",
-      "value": "GS2.1.s1761951396$o1$g1$t1761953197$j60$l0$h0",
+      "value": "GS2.1.s1762138970$o2$g1$t1762139653$j60$l0$h0",
       "domain": ".campuslabs.com",
       "path": "/",
-      "expires": 1796513197.585435,
-      "httpOnly": false,
-      "secure": false,
-      "sameSite": "Lax"
-    },
-    {
-      "name": "_ga_FSLTEELJW8",
-      "value": "GS2.1.s1761951397$o1$g1$t1761953197$j60$l0$h0",
-      "domain": ".campuslabs.com",
-      "path": "/",
-      "expires": 1796513197.954269,
-      "httpOnly": false,
-      "secure": false,
-      "sameSite": "Lax"
-    },
-    {
-      "name": "_ga",
-      "value": "GA1.2.1871065955.1761951397",
-      "domain": ".campuslabs.com",
-      "path": "/",
-      "expires": 1796513197.960709,
+      "expires": 1796699653.830048,
       "httpOnly": false,
       "secure": false,
       "sameSite": "Lax"
@@ -235,7 +215,7 @@
       "value": "1",
       "domain": ".campuslabs.com",
       "path": "/",
-      "expires": 1761953257,
+      "expires": 1762139713,
       "httpOnly": false,
       "secure": false,
       "sameSite": "Lax"
@@ -245,7 +225,27 @@
       "value": "1",
       "domain": ".campuslabs.com",
       "path": "/",
-      "expires": 1761953257,
+      "expires": 1762139713,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_FSLTEELJW8",
+      "value": "GS2.1.s1762138971$o2$g1$t1762139653$j60$l0$h0",
+      "domain": ".campuslabs.com",
+      "path": "/",
+      "expires": 1796699653.989409,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1871065955.1761951397",
+      "domain": ".campuslabs.com",
+      "path": "/",
+      "expires": 1796699653.989536,
       "httpOnly": false,
       "secure": false,
       "sameSite": "Lax"

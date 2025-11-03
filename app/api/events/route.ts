@@ -2,12 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getEventsBetween } from '@/app/lib/data';
 import { getWalkingEta } from '@/app/lib/walk';
 
-
-
-
-
-
-
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const start = searchParams.get('start') || '18:00'; // HH:mm
@@ -22,10 +16,12 @@ export async function GET(req: NextRequest) {
   const windowStart = new Date(today.getFullYear(), today.getMonth(), today.getDate(), sh, sm);
   const windowEnd = new Date(today.getFullYear(), today.getMonth(), today.getDate(), eh, em);
 
-  // Pull events from our mock data for now
-  const events = await getEventsBetween(windowStart, windowEnd);
+  // Load events data (may include lastUpdated)
+  const data = await getEventsBetween(windowStart, windowEnd);
+  const events = data.events || data;
+  const lastUpdated = data.lastUpdated || null;
 
-  // If location provided, compute walking times (we'll stub this for now)
+  // If location provided, compute walking times (stubbed for now)
   let withLoc = events;
   if (lat && lng) {
     const origin = { lat: Number(lat), lng: Number(lng) };
@@ -37,5 +33,5 @@ export async function GET(req: NextRequest) {
     withLoc = events.sort((a, b) => new Date(a.startsAt).getTime() - new Date(b.startsAt).getTime());
   }
 
-  return NextResponse.json({ events: withLoc });
+  return NextResponse.json({ events: withLoc, lastUpdated });
 }

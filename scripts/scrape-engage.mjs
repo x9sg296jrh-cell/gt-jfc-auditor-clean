@@ -93,7 +93,12 @@ async function scrape() {
   }
 
     fs.mkdirSync(path.dirname(dataOut), { recursive: true });
-  fs.writeFileSync(dataOut, JSON.stringify(out, null, 2), 'utf8');
+const payload = {
+  lastUpdated: new Date().toISOString(),
+  events: out
+};
+fs.writeFileSync(dataOut, JSON.stringify(payload, null, 2), 'utf8');
+
   console.log(`✅ Saved ${out.length} events to ${dataOut}`);
 
   await browser.close();
