@@ -4,12 +4,11 @@ import { getWalkingEta } from '@/app/lib/walk';
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
-  const start = searchParams.get('start') || '18:00'; // HH:mm
+  const start = searchParams.get('start') || '18:00';
   const end = searchParams.get('end') || '20:00';
   const lat = searchParams.get('lat');
   const lng = searchParams.get('lng');
 
-  // Window is "today" in your local timezone
   const today = new Date();
   const [sh, sm] = start.split(':').map(Number);
   const [eh, em] = end.split(':').map(Number);
@@ -17,11 +16,10 @@ export async function GET(req: NextRequest) {
   const windowEnd = new Date(today.getFullYear(), today.getMonth(), today.getDate(), eh, em);
 
   // Load events data (may include lastUpdated)
-  const data = await getEventsBetween(windowStart, windowEnd);
-  const events = data.events || data;
-  const lastUpdated = data.lastUpdated || null;
+  const data: any = await getEventsBetween(windowStart, windowEnd);
+  const events = Array.isArray(data) ? data : data.events || [];
+  const lastUpdated = (data && !Array.isArray(data) && data.lastUpdated) || null;
 
-  // If location provided, compute walking times (stubbed for now)
   let withLoc = events;
   if (lat && lng) {
     const origin = { lat: Number(lat), lng: Number(lng) };
