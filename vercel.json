@@ -1,8 +1,13 @@
 {
+  "version": 2,
+  "buildCommand": "next build",
+  "outputDirectory": ".next",
+  "framework": "nextjs",
+  "ignoreCommand": "if [ \"$SKIP_SCRAPER\" = \"true\" ]; then echo 'Skipping scraper setup'; fi",
   "crons": [
     {
       "path": "/api/refresh",
-      "schedule": "0 * * * *"
+      "schedule": "0 0 * * *"
     }
   ]
 }
