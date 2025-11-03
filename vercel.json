@@ -1,5 +1,5 @@
 {
-  "buildCommand": "if [ \"$SKIP_SCRAPER\" = \"true\" ]; then echo 'Skipping scraper build'; else next build; fi",
-  "outputDirectory": ".next",
-  "framework": "nextjs"
+  "framework": "nextjs",
+  "buildCommand": "if [ \"$SKIP_SCRAPER\" = \"true\" ]; then echo 'Skipping scraper setup'; fi && next build",
+  "outputDirectory": ".next"
 }
