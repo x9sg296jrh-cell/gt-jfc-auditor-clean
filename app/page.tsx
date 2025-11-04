@@ -2,15 +2,19 @@
 
 import { useState, useEffect } from "react";
 
-interface Event {
-  name: string;
-  organization: string;
-  location: string;
-  startTime: string;
-  endTime: string;
-  hasFood: boolean;
-  url: string;
-}
+type Event = {
+  id: string;
+  sourceUrl: string;
+  title: string;
+  clubName: string;
+  startsAt: string;
+  endsAt: string;
+  venueName?: string;
+  lat?: number;
+  lng?: number;
+  hasFood?: boolean;
+  foodNotes?: string;
+};
 
 export default function HomePage() {
   const [events, setEvents] = useState<Event[]>([]);
@@ -24,27 +28,26 @@ export default function HomePage() {
   const [location, setLocation] = useState<{ lat: number; lon: number } | null>(null);
 
   const fetchEvents = async () => {
-  setLoading(true);
-  try {
-    const res = await fetch("/api/events");
-    const data = await res.json();
+    setLoading(true);
+    try {
+      const res = await fetch("/api/events");
+      const data = await res.json();
 
-    // ensure events is an array
-    if (Array.isArray(data)) {
-      setEvents(data);
-    } else if (Array.isArray(data.events)) {
-      setEvents(data.events);
-    } else {
-      console.error("Unexpected API response:", data);
-      setEvents([]); // fallback to empty array
+      if (Array.isArray(data)) {
+        setEvents(data);
+      } else if (Array.isArray(data.events)) {
+        setEvents(data.events);
+      } else {
+        console.error("Unexpected API response:", data);
+        setEvents([]);
+      }
+    } catch (err) {
+      console.error("Failed to fetch events:", err);
+      setEvents([]);
+    } finally {
+      setLoading(false);
     }
-  } catch (err) {
-    console.error("Failed to fetch events:", err);
-    setEvents([]); // fail gracefully
-  } finally {
-    setLoading(false);
-  }
-};
+  };
 
   useEffect(() => {
     fetchEvents();
@@ -60,20 +63,20 @@ export default function HomePage() {
     );
   };
 
-const filtered = events.filter(e => {
-  const eventStart = new Date(e.startsAt);
-  const eventLocal = new Date(eventStart.getTime() - eventStart.getTimezoneOffset() * 60000); // convert UTC→local
+  // ✅ Proper local time filtering
+  const filteredEvents = events.filter((e) => {
+    const eventStart = new Date(e.startsAt);
+    const eventLocal = new Date(eventStart.getTime() - eventStart.getTimezoneOffset() * 60000);
 
-  const selectedLocal = new Date(selectedDate);
-  const sameDay = eventLocal.toDateString() === selectedLocal.toDateString();
+    const selectedDateObj = new Date(date);
+    const sameDay = eventLocal.toDateString() === selectedDateObj.toDateString();
 
-  return (
-    sameDay &&
-    eventLocal.getHours() >= parseInt(start.split(":")[0]) &&
-    eventLocal.getHours() <= parseInt(end.split(":")[0])
-  );
-});
+    const eventHour = eventLocal.getHours();
+    const startHour = parseInt(startTime.split(":")[0]);
+    const endHour = parseInt(endTime.split(":")[0]);
 
+    return sameDay && eventHour >= startHour && eventHour <= endHour;
+  });
 
   const foodEvents = filteredEvents.filter((e) => e.hasFood);
   const noFoodEvents = filteredEvents.filter((e) => !e.hasFood);
@@ -150,12 +153,12 @@ const filtered = events.filter(e => {
               {foodEvents.length ? (
                 foodEvents.map((e, idx) => (
                   <div key={idx} className="p-4 rounded-2xl bg-white dark:bg-neutral-800 shadow">
-                    <h3 className="font-semibold text-lg">{e.name}</h3>
+                    <h3 className="font-semibold text-lg">{e.title}</h3>
                     <p className="text-sm text-gray-500">
-                      {e.organization} • {e.location}
+                      {e.clubName} • {e.venueName}
                     </p>
                     <a
-                      href={e.url}
+                      href={e.sourceUrl}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="underline text-blue-600 dark:text-blue-400"
@@ -190,12 +193,12 @@ const filtered = events.filter(e => {
               {noFoodEvents.length ? (
                 noFoodEvents.map((e, idx) => (
                   <div key={idx} className="p-4 rounded-2xl bg-white dark:bg-neutral-800 shadow">
-                    <h3 className="font-semibold text-lg">{e.name}</h3>
+                    <h3 className="font-semibold text-lg">{e.title}</h3>
                     <p className="text-sm text-gray-500">
-                      {e.organization} • {e.location}
+                      {e.clubName} • {e.venueName}
                     </p>
                     <a
-                      href={e.url}
+                      href={e.sourceUrl}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="underline text-blue-600 dark:text-blue-400"
