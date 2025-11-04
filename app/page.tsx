@@ -64,7 +64,7 @@ export default function HomePage() {
   };
 
   // ✅ Proper local time filtering
-const filtered = events.filter((e) => {
+const filteredEvents = events.filter((e) => {
   const eventStart = new Date(e.startsAt);
   const eventLocal = new Date(
     eventStart.getTime() - eventStart.getTimezoneOffset() * 60000
@@ -80,9 +80,9 @@ const filtered = events.filter((e) => {
   return sameDay && eventHour >= startHour && eventHour <= endHour;
 });
 
+const foodEvents = filteredEvents.filter((e) => e.hasFood);
+const noFoodEvents = filteredEvents.filter((e) => !e.hasFood);
 
-  const foodEvents = filteredEvents.filter((e) => e.hasFood);
-  const noFoodEvents = filteredEvents.filter((e) => !e.hasFood);
 
   const timeOptions = Array.from({ length: 24 }, (_, i) => {
     const hour = i.toString().padStart(2, "0");
