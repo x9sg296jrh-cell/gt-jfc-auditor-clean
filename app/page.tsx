@@ -60,15 +60,20 @@ export default function HomePage() {
     );
   };
 
-  const filteredEvents = events.filter((e) => {
-    const eventStart = new Date(e.startTime);
-    const selectedDate = new Date(date);
-    return (
-      eventStart.getHours() >= parseInt(startTime.split(":")[0]) &&
-      eventStart.getHours() <= parseInt(endTime.split(":")[0]) &&
-      eventStart.toDateString() === selectedDate.toDateString()
-    );
-  });
+const filtered = events.filter(e => {
+  const eventStart = new Date(e.startsAt);
+  const eventLocal = new Date(eventStart.getTime() - eventStart.getTimezoneOffset() * 60000); // convert UTC→local
+
+  const selectedLocal = new Date(selectedDate);
+  const sameDay = eventLocal.toDateString() === selectedLocal.toDateString();
+
+  return (
+    sameDay &&
+    eventLocal.getHours() >= parseInt(start.split(":")[0]) &&
+    eventLocal.getHours() <= parseInt(end.split(":")[0])
+  );
+});
+
 
   const foodEvents = filteredEvents.filter((e) => e.hasFood);
   const noFoodEvents = filteredEvents.filter((e) => !e.hasFood);
