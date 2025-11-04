@@ -2,30 +2,28 @@
 
 import { useState, useEffect } from "react";
 
-type Event = {
-  id: string;
-  sourceUrl: string;
+interface Event {
   title: string;
   clubName: string;
+  venueName: string;
   startsAt: string;
   endsAt: string;
-  venueName?: string;
-  lat?: number;
-  lng?: number;
-  hasFood?: boolean;
-  foodNotes?: string;
-};
+  hasFood: boolean;
+  sourceUrl: string;
+}
 
 export default function HomePage() {
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
-  const [startTime, setStartTime] = useState("18:00");
-  const [endTime, setEndTime] = useState("20:00");
+  const [startTime, setStartTime] = useState("00:00");
+  const [endTime, setEndTime] = useState("23:00");
   const [date, setDate] = useState<string>(() => {
     const today = new Date();
     return today.toISOString().split("T")[0];
   });
-  const [location, setLocation] = useState<{ lat: number; lon: number } | null>(null);
+  const [location, setLocation] = useState<{ lat: number; lon: number } | null>(
+    null
+  );
 
   const fetchEvents = async () => {
     setLoading(true);
@@ -33,14 +31,23 @@ export default function HomePage() {
       const res = await fetch("/api/events");
       const data = await res.json();
 
-      if (Array.isArray(data)) {
-        setEvents(data);
-      } else if (Array.isArray(data.events)) {
-        setEvents(data.events);
-      } else {
-        console.error("Unexpected API response:", data);
-        setEvents([]);
-      }
+      const eventsData = Array.isArray(data)
+        ? data
+        : Array.isArray(data.events)
+        ? data.events
+        : [];
+
+      const normalized = eventsData.map((e: any) => ({
+        title: e.title,
+        clubName: e.clubName,
+        venueName: e.venueName,
+        startsAt: e.startsAt,
+        endsAt: e.endsAt,
+        hasFood: e.hasFood,
+        sourceUrl: e.sourceUrl,
+      }));
+
+      setEvents(normalized);
     } catch (err) {
       console.error("Failed to fetch events:", err);
       setEvents([]);
@@ -63,26 +70,25 @@ export default function HomePage() {
     );
   };
 
-  // ✅ Proper local time filtering
-const filteredEvents = events.filter((e) => {
-  const eventStart = new Date(e.startsAt);
-  const eventLocal = new Date(
-    eventStart.getTime() - eventStart.getTimezoneOffset() * 60000
-  ); // convert UTC→local
+  // ---- Filter Events ----
+  const filteredEvents = events.filter((e) => {
+    const eventStart = new Date(e.startsAt);
+    const eventLocal = new Date(
+      eventStart.getTime() - eventStart.getTimezoneOffset() * 60000
+    );
 
-  const selectedLocal = new Date(date);
-  const sameDay = eventLocal.toDateString() === selectedLocal.toDateString();
+    const selectedLocal = new Date(date);
+    const sameDay = eventLocal.toDateString() === selectedLocal.toDateString();
 
-  const eventHour = eventLocal.getHours();
-  const startHour = parseInt(startTime.split(":")[0]);
-  const endHour = parseInt(endTime.split(":")[0]);
+    const eventHour = eventLocal.getHours();
+    const startHour = parseInt(startTime.split(":")[0]);
+    const endHour = parseInt(endTime.split(":")[0]);
 
-  return sameDay && eventHour >= startHour && eventHour <= endHour;
-});
+    return sameDay && eventHour >= startHour && eventHour <= endHour;
+  });
 
-const foodEvents = filteredEvents.filter((e) => e.hasFood);
-const noFoodEvents = filteredEvents.filter((e) => !e.hasFood);
-
+  const foodEvents = filteredEvents.filter((e) => e.hasFood);
+  const noFoodEvents = filteredEvents.filter((e) => !e.hasFood);
 
   const timeOptions = Array.from({ length: 24 }, (_, i) => {
     const hour = i.toString().padStart(2, "0");
@@ -91,7 +97,9 @@ const noFoodEvents = filteredEvents.filter((e) => !e.hasFood);
 
   return (
     <main className="min-h-screen bg-gray-50 dark:bg-neutral-900 text-gray-900 dark:text-gray-100 px-6 py-10">
-      <h1 className="text-4xl font-bold text-center mb-8">JFC Audits – Find Events</h1>
+      <h1 className="text-4xl font-bold text-center mb-8">
+        JFC Audits – Find Events
+      </h1>
 
       {/* Filters Section */}
       <div className="flex flex-wrap justify-center gap-4 mb-8">
@@ -155,7 +163,10 @@ const noFoodEvents = filteredEvents.filter((e) => !e.hasFood);
             <div className="flex flex-col gap-4">
               {foodEvents.length ? (
                 foodEvents.map((e, idx) => (
-                  <div key={idx} className="p-4 rounded-2xl bg-white dark:bg-neutral-800 shadow">
+                  <div
+                    key={idx}
+                    className="p-4 rounded-2xl bg-white dark:bg-neutral-800 shadow"
+                  >
                     <h3 className="font-semibold text-lg">{e.title}</h3>
                     <p className="text-sm text-gray-500">
                       {e.clubName} • {e.venueName}
@@ -195,7 +206,10 @@ const noFoodEvents = filteredEvents.filter((e) => !e.hasFood);
             <div className="flex flex-col gap-4">
               {noFoodEvents.length ? (
                 noFoodEvents.map((e, idx) => (
-                  <div key={idx} className="p-4 rounded-2xl bg-white dark:bg-neutral-800 shadow">
+                  <div
+                    key={idx}
+                    className="p-4 rounded-2xl bg-white dark:bg-neutral-800 shadow"
+                  >
                     <h3 className="font-semibold text-lg">{e.title}</h3>
                     <p className="text-sm text-gray-500">
                       {e.clubName} • {e.venueName}
