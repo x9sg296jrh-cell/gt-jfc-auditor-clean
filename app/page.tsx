@@ -64,19 +64,22 @@ export default function HomePage() {
   };
 
   // ✅ Proper local time filtering
-  const filteredEvents = events.filter((e) => {
-    const eventStart = new Date(e.startsAt);
-    const eventLocal = new Date(eventStart.getTime() - eventStart.getTimezoneOffset() * 60000);
+const filtered = events.filter((e) => {
+  const eventStart = new Date(e.startsAt);
+  const eventLocal = new Date(
+    eventStart.getTime() - eventStart.getTimezoneOffset() * 60000
+  ); // convert UTC→local
 
-    const selectedDateObj = new Date(date);
-    const sameDay = eventLocal.toDateString() === selectedDateObj.toDateString();
+  const selectedLocal = new Date(date);
+  const sameDay = eventLocal.toDateString() === selectedLocal.toDateString();
 
-    const eventHour = eventLocal.getHours();
-    const startHour = parseInt(startTime.split(":")[0]);
-    const endHour = parseInt(endTime.split(":")[0]);
+  const eventHour = eventLocal.getHours();
+  const startHour = parseInt(startTime.split(":")[0]);
+  const endHour = parseInt(endTime.split(":")[0]);
 
-    return sameDay && eventHour >= startHour && eventHour <= endHour;
-  });
+  return sameDay && eventHour >= startHour && eventHour <= endHour;
+});
+
 
   const foodEvents = filteredEvents.filter((e) => e.hasFood);
   const noFoodEvents = filteredEvents.filter((e) => !e.hasFood);
